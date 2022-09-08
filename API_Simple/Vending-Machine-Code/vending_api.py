@@ -85,8 +85,9 @@ class vendingInventory(Resource):
 
         if id > len(inventory)-1:
             return {'message': "Item of id " + str(id) + " not found. Please try again"}, 404, {"X-Coins": coinCount}
-        
-        if coinCount < 2:
+        elif inventory[id] == 0:
+            return {'message': "Item of id " + str(id) + " is out of stock. Please select another drink"}, 404, {"X-Coins": coinCount}
+        elif coinCount < 2:
             return {'message': "Not enough coins. Please add more coins and try again"}, 403, {"X-Coins": coinCount}
 
         # while (inventory[id] - numDrinks < 0 or coinCount - numDrinks*2 < 0) and numDrinks > 0:
