@@ -2,8 +2,6 @@
 
 ### **Info**
 
-***Note: please look at only the code in API_Simple for now as it is currently functional. API_Complex is still in development***
-
 ***Maintainers***: Isaiah Herr
 
 ***Description***: This API is designed for the CM Group Interview using the Flask and Flask_Restful libraries in Python. There will be two solutions, one is a simpler solution in which a simple API is created that represents a vending machine. This vending machine is a very simple API where mostly everything is stored in memory.
