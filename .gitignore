@@ -7,3 +7,4 @@ api_complex/include
 api_complex/lib
 api_complex/scripts
 pyvenv.cfg
+.pytest_cache
