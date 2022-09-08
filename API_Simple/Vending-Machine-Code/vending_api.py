@@ -1,6 +1,5 @@
 from flask import Flask
 from flask_restful import Api, Resource, abort, reqparse
-from sqlalchemy import Integer
 
 app = Flask(__name__)  # Creates our app within flask
 # Will wrap our app in an API and initializes the fact we're using a restful API
@@ -73,7 +72,7 @@ class vendingInventory(Resource):
     def get(self, id):
         '''Returns the remaining quantity of a specific item associated with the ID'''
         
-        if id > len(inventory)-1:
+        if id > len(inventory)-1: #If user tries to access id outside of the range of the array
             return {'message': "Item of id " + str(id) + " not found. Please try again"}, 404, {"X-Coins": coinCount}
         return {"item_" + str(id) + "_quantity": inventory[id]}
 
@@ -86,6 +85,7 @@ class vendingInventory(Resource):
 
         if id > len(inventory)-1:
             return {'message': "Item of id " + str(id) + " not found. Please try again"}, 404, {"X-Coins": coinCount}
+        
         if coinCount < 2:
             return {'message': "Not enough coins. Please add more coins and try again"}, 403, {"X-Coins": coinCount}
 
