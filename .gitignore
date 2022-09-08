@@ -3,4 +3,7 @@ __pycache__
 api_simple/include
 api_simple/lib
 api_simple/scripts
+api_complex/include
+api_complex/lib
+api_complex/scripts
 pyvenv.cfg
