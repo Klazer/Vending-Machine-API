@@ -49,7 +49,7 @@ This code can be executed from the vending_api.py file. Queries to the API can o
   Running on ***http://localhost:port***
     b. Use the bolded section given to you as the base URI that you will be using to query endpoints from the API
 
-### ""Executing the Pytest Script***
+### ***Executing the Pytest Script***
 Please ensure that before following these steps, you are in the directory that contains only the test_vending.py and vending_api.py scripts. These scripts will be in the Vending-Machine-Code folder for API_Simmple
 
 1. Ensure that your current directory is in the \API_Simple\Vending-Machine-Code directory
