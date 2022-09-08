@@ -11,12 +11,13 @@ coinCount = 0
 
 add_coins = reqparse.RequestParser()
 add_coins.add_argument(
-    "coins", type=int, help="Must include the number of coins added. Please try again", required = True)
+    "coin", type=int, help="Must include a coin to be added. Please try again", required = True)
 
 
 class addCoins(Resource):
     '''PURPOSE: This class is used to allow the associated root endpoint, "/", to enable users
     to add coins to the vending machine or delete the coins and get them back.'''
+    
     def put(self):
         '''PUT method to enable users to add coins
         
@@ -32,8 +33,8 @@ class addCoins(Resource):
         if arguments.coin != 1:
             return {"message": "Can only put in 1 coin at a time. Please check if the value passed in the body was correct and try again"}, 403, {"X-Coins": coinCount}
         
-        coinCount += arguments.coins
-        return {"coins": coinCount}, 204, {"X-Coins": coinCount}
+        coinCount += arguments.coin
+        return "", 204, {"X-Coins": coinCount}
 
     def delete(self):
         '''DELETE method to return all coins to the user
@@ -44,7 +45,7 @@ class addCoins(Resource):
         global coinCount
         returnedCoins = coinCount #Keep returned coins in a temp variable to return to the user
         coinCount = 0
-        return {"coins_returned": returnedCoins}, 204, {"X-Coins": returnedCoins}
+        return "", 200, {"X-Coins": returnedCoins}
 
 
 # Create a class that inherits from Resource object to allow the creation of resources
@@ -58,7 +59,6 @@ class vendingInventoryGeneral(Resource):
     def get(self):
         return {"inventory": inventory}
 
-
 # Create a class that inherits from Resource object to allow the creation of resources
 class vendingInventory(Resource):
     '''PURPOSE: This class allows the use of the "/inventory/<id> endpoint for several actions
@@ -70,42 +70,37 @@ class vendingInventory(Resource):
     
     '''
 
-    def idNotFound(self, id):
-        '''Function in case user calls for an ID that does not exist'''
-        
-        if id > len(inventory):
-            return {'message': "Item of id " + id + " not found. Please try again"}, 404, {"X-Coins": coinCount}
-
     def get(self, id):
         '''Returns the remaining quantity of a specific item associated with the ID'''
-        self.idNotFound(id)
-        return {str(id)+"_quantity": inventory[id]}
-        # abort(404, message = "Item of id " + id + " not found. Please try again")
+        
+        if id > len(inventory)-1:
+            return {'message': "Item of id " + str(id) + " not found. Please try again"}, 404, {"X-Coins": coinCount}
+        return {"item_" + str(id) + "_quantity": inventory[id]}
 
     def put(self, id):
         '''Action to buy a drink. Extra coins will be returned after transaction.
         Otherwise, users will have ability to still add in coins if not enough'''
         
         global coinCount
-        numDrinks = 2 % coinCount if coinCount > 0 else 0
+        # numDrinks = 2 % coinCount if coinCount > 0 else 0
 
-        self.idNotFound()
-        if coinCount <= 1:
+        if id > len(inventory)-1:
+            return {'message': "Item of id " + str(id) + " not found. Please try again"}, 404, {"X-Coins": coinCount}
+        if coinCount < 2:
             return {'message': "Not enough coins. Please add more coins and try again"}, 403, {"X-Coins": coinCount}
 
-        while (inventory[id] - numDrinks < 0 or coinCount - numDrinks*2 < 0) and numDrinks > 0:
-            numDrinks -= 1
+        # while (inventory[id] - numDrinks < 0 or coinCount - numDrinks*2 < 0) and numDrinks > 0:
+        #     numDrinks -= 1
 
-        returnedCoins = coinCount - numDrinks*2
+        returnedCoins = coinCount - 2
         coinCount = 0
-        inventory[id] -= numDrinks
+        inventory[id] -= 1
 
-        return {"quantity": numDrinks, "change": returnedCoins}, {"X-Coins": returnedCoins, str(id)+"-Inventory-Remaining": inventory[id]}
+        return {"quantity": 1, "change": returnedCoins}, {"X-Coins": returnedCoins, str(id)+"-Inventory-Remaining": inventory[id]}
 
 
 api.add_resource(vendingInventoryGeneral, "/inventory")
-api.add_resource(vendingInventory, "/inventory/<int:id>",
-                 endpoint="inventoryItem")
+api.add_resource(vendingInventory, "/inventory/<int:id>")
 api.add_resource(addCoins, "/")
 
 

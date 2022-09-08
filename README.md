@@ -23,13 +23,13 @@ A more complex solution, which is still being developed for fun, will have this 
 
 | Verb | URI | Request Body | Response Code | Response Headers | Response Body |
 | :--- | :-- | :----------- |:------------- | :--------------- | :------------ |
-| PUT | / | {"coin": 1} | 204 | X-Coins: *[# of coins accepted] |{"coins": *[# of coins]|
-| DELETE | / | | 204 | X-Coins: *[# of coins returned] |{"coins_returned": *[# of coins returned]|
+| PUT | / | {"coin": 1} | 204 | X-Coins: *[# of coins accepted] ||
+| DELETE | / | | 204 | X-Coins: *[# of coins returned] ||
 | GET | /inventory || 200 || An array representing the inventory of remaining items|
 | GET | /inventory/:id | | 200 || Remaining quantity of specific item associated with id |
 | PUT | /inventory/:id || 200 |X-Coins: *[# of coins accepted], X-Inventory-Remaining: *[# of items remaining] | {"quantity": *[Number of items vended], "change": *[Number of coins returned]}|
-| PUT | /inventory/:id || 404 | X-Coins: *[# of coins accepted] ||
-| PUT | /inventory/:id || 403 | X-Coins: *[0 or 1] ||
+| PUT | /inventory/:id || 404 | X-Coins: *[# of coins accepted] | {"message": "Item of id 3 not found. Please try again"} |
+| PUT | /inventory/:id || 403 | X-Coins: *[0 or 1] |{"message": "Not enough coins. Please add more coins and try again"} |
 
 **Note**: *[something] represents a dynamic value
 
