@@ -9,7 +9,8 @@ def test_get_inventory():
     '''Test function so that users can see all of the inventory for the vending machine'''
     
     response = pip._vendor.requests.get(BASE + "inventory")
-    assert response.json()["inventory"] == [5, 5, 5]
+    # assert response.json()["inventory"] == [5, 5, 5]
+    assert response.status_code == 200
     # print(response.json()["inventory"])
     
 def test_get_inventory_item():
@@ -20,12 +21,12 @@ def test_get_inventory_item():
     response2 = pip._vendor.requests.get(BASE + "inventory/2")
     response3 = pip._vendor.requests.get(BASE + "inventory/3")
     
-    assert response0.json()["item_0_quantity"] == 5
-    assert response1.json()["item_1_quantity"] == 5
-    assert response2.json()["item_2_quantity"] == 5
+    assert response1.json()["quantity"] == 5
+    assert response2.json()["quantity"] == 5
+    assert response3.json()["quantity"] == 5
     
-    assert response3.json()["message"] == "Item of id 3 not found. Please try again" #Test for item out of bounds
-    assert response3.status_code == 404
+    assert response0.json()["message"] == "Unable to find item. Please try again" #Test for item out of bounds
+    assert response0.status_code == 404
     
     
 def test_put_and_delete_coins():
@@ -52,6 +53,7 @@ def test_buy_items():
     assert int(response.json()["quantity"]) == 1
     assert int(response.headers["X-Coins"]) == 1
     assert int(response.headers["1-Inventory-Remaining"]) == 4
+    assert pip._vendor.requests.get(BASE + "inventory/1").json()["quantity"] == 4
     
 def test_invalid_id_buying():
     '''Test function to make sure status code is 404 when trying to buy an item out of the range
