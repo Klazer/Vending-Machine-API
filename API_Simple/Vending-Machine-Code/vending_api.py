@@ -120,7 +120,7 @@ class vendingInventory(Resource):
         
         result = inventoryModel.query.filter_by(id = inputId).first()
         if not result: #If user tries to access id outside of the range of the array
-            response = Response(response = json.dumps({"message": "Unable to find item. Please try again"}), content_type="application/json", status = 404)
+            response = Response(response = json.dumps({"message": "Unable to find item. Please try again"}), content_type="application/json", status = 404) #Utilizing Flask's json function to convert reponse into json object. Requires content_type to be applicatino/json to be a valid json response
             response.headers["X-Coins"] = coinCount
             abort(response) #The abort function can also take Response objects
         return result
