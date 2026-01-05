@@ -4,9 +4,7 @@
 
 ***Maintainers***: Isaiah Herr
 
-***Description***: This API is designed using the Flask and Flask_Restful libraries in Python. There will be two solutions, one is a simpler solution in which a simple API is created that represents a vending machine. This vending machine is a very simple API where mostly everything is stored in memory.
-
-A more complex solution, which is still being developed for fun, will have this vending machine be put into a Postgres database with a larger inventory of drinks and more operations. In addition to this, it is still in the planning process of how this will currently be tested and deployed.
+***Description***: This API is designed using the Flask and Flask_Restful libraries in Python. This vending machine is a very simple API where mostly everything is stored in memory.
 
 ### **Important Variables**
 | Variable | Description |
