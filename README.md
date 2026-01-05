@@ -15,7 +15,7 @@
 | app | Associated with the Flask class to indicate we're building a flask application
 | api | Associated with the API class from the flask_restful library to indicate we're building a REST API
 
-### ** Vending Machine API Endpoints **
+### Vending Machine API Endpoints
 
 | Verb | URI | Request Body | Response Code | Response Headers | Response Body |
 | :--- | :-- | :----------- |:------------- | :--------------- | :------------ |
